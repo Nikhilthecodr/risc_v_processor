@@ -95,7 +95,7 @@ load_extend ldext(
 
 mux_3 result_sel(
     .a(ALUresult),
-    .b(read_data_mem),
+    .b(read_data_mem), //result
     .c(PCplus4),
     .sel(ResultSrc),
     .y(Result)
