@@ -11,7 +11,9 @@ module DataPath (
     input [1:0] ImmSrc,
     input [3:0] ALUcontrol,
     output Zflag,
-    output [31:0] ALUresult, PCTarget, WriteData
+    output [31:0] ALUresult, PCTarget, WriteData,
+    input [2:0] load,
+    input [1:0] store
 );
 
     wire [31:0]mux_wire;
@@ -56,6 +58,9 @@ module DataPath (
         .ImmExtIn(ImmExt),
         .PCTarget(PCTarget)
     );
+
+   
+    
 
     assign WriteData=mux_wire;
 
