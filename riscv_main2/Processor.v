@@ -26,9 +26,10 @@ wire [31:0]PCTarget;
 wire [31:0] PCplus4, PC;
 wire [2:0] load;
 wire [1:0] store;
-wire[31:0] read_data_mem;
+wire [31:0] read_data_mem;
 wire [31:0]Result;
 wire [31:0] write_data_mem;
+wire ALUR31;
 
 inst_control inst_path(
     .clk(clk), 
@@ -53,7 +54,8 @@ DataPath datapath(
     .Zflag(Zflag),
     .ALUresult(ALUresult),
     .PCTarget(PCTarget),
-    .WriteData(WriteData)
+    .WriteData(WriteData),
+    .ALUR31(ALUR31)
 );
 
 controlUnit contr_path(
@@ -69,7 +71,8 @@ controlUnit contr_path(
     .ALUSrc(ALUSrc),
     .PCsrc(PCsrc),
     .load(load),
-    .store(store)
+    .store(store),
+    .ALUR31(ALUR31)
 );
 
 dataMem d_path(
@@ -84,14 +87,14 @@ dataMem d_path(
 store_extend strext(
         .y(WriteData),
         .sel(store),
-        .data(mem_data_write)
+        .data(write_data_mem)
     );
 
 load_extend ldext(
-    .read_data(ReadData),
-    .load(load),
-    .read_data_mem(read_data_mem)
-    ):
+    .y(ReadData),
+    .sel(load),
+    .data(read_data_mem)
+    );
 
 mux_3 result_sel(
     .a(ALUresult),
