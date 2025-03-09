@@ -10,10 +10,8 @@ module DataPath (
     input reg_write, ALUSrc,
     input [1:0] ImmSrc,
     input [3:0] ALUcontrol,
-    output Zflag,
-    output [31:0] ALUresult, PCTarget, WriteData,
-    input [2:0] load,
-    input [1:0] store
+    output Zflag,ALUR31,
+    output [31:0] ALUresult, PCTarget, WriteData
 );
 
     wire [31:0]mux_wire;
@@ -59,9 +57,7 @@ module DataPath (
         .PCTarget(PCTarget)
     );
 
-   
-    
-
     assign WriteData=mux_wire;
+    assign ALUR31 = ALUresult[31];
 
 endmodule

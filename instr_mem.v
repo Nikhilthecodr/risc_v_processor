@@ -11,52 +11,22 @@ module instr_mem(
     begin
         if(reset)
         begin
-            // //00500113 addi
-            // mem[3] = 8'h00;
-            // mem[2] = 8'h50;
-            // mem[1] = 8'h01;
-            // mem[0] = 8'h13;
-            
-            //stack 0 FFC4A303 load
-            mem[3] = 8'hFF;
-            mem[2] = 8'hC4;
-            mem[1] = 8'hA3;
-            mem[0] = 8'h03;
-            //stack 1 0064A423 Sw
-            mem[7] = 8'h00;
-            mem[6] = 8'h64;
-            mem[5] = 8'hA4;
-            mem[4] = 8'h23;
-            //stack 2 0062E233 0r
-            mem[11] = 8'h00;
-            mem[10] = 8'h62;
-            mem[9] = 8'hE2;
-            mem[8] = 8'h33;
-            //stack 3 FE420AE3 Beq
-            mem[15] = 8'hFE;
-            mem[14] = 8'h42;
-            mem[13] = 8'h0A;
-            mem[12] = 8'hE3;
-            //stack 4 02728863 JAL
-            mem[19] = 8'h02;
-            mem[18] = 8'h72;
-            mem[17] = 8'h88;
-            mem[16] = 8'h63;
-            //stack 5
-            mem[23] = 8'h00;
-            mem[22] = 8'h00;
-            mem[21] = 8'h00;
-            mem[20] = 8'h00;
-            //stack 6
-            mem[27] = 8'h00;
-            mem[26] = 8'h00;
-            mem[25] = 8'h00;
-            mem[24] = 8'h00;
-            //stack 7
-            mem[31] = 8'h00;
-            mem[30] = 8'h00;
-            mem[29] = 8'h00;
-            mem[28] = 8'h00;
+            {mem[3],mem[2],mem[1],mem[0]} = 32'h00500113; //addi x2,x0,5 #x2 = 5
+            {mem[7],mem[6],mem[5],mem[4]} = 32'h00C00193; //addi x3,x0,12 #x3 = 12
+            {mem[11],mem[10],mem[9],mem[8]} = 32'hFF718393; //addi x7,x3,-9 #x7 = (12 - 9) = 3
+            {mem[15],mem[14],mem[13],mem[12]} = 32'h0023E233;//or x4,x7,x2 #x4 = (3 OR 5) = 7
+            {mem[19],mem[18],mem[17],mem[16]} = 32'h0041F2B3; //and x5,x3,x4 #x5 = (12 AND 7) = 4
+            {mem[23],mem[22],mem[21],mem[20]} = 32'h004282B3; //add x5,x5,x4 #x5 = 4 + 7 = 11
+            {mem[27],mem[26],mem[25],mem[24]} = 32'h02728863; //beq x5,x7,end #shouldn't be taken
+            {mem[31],mem[30],mem[29],mem[28]} = 32'h0041A233; //slt x4,x3,x4 #x4 = (12 < 7) = 0
+//            {mem[35],mem[34],mem[33],mem[32]} = 32'hFFC4A303;
+//            {mem[3],mem[2],mem[1],mem[0]} = 32'hFFC4A303;
+//            {mem[3],mem[2],mem[1],mem[0]} = 32'hFFC4A303;
+//            {mem[3],mem[2],mem[1],mem[0]} = 32'hFFC4A303;
+//            {mem[3],mem[2],mem[1],mem[0]} = 32'hFFC4A303;
+//            {mem[3],mem[2],mem[1],mem[0]} = 32'hFFC4A303;
+//            {mem[3],mem[2],mem[1],mem[0]} = 32'hFFC4A303;
+         
         end
     end
 

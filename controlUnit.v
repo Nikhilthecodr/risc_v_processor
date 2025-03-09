@@ -6,7 +6,9 @@ module controlUnit (
     output reg [3:0] ALUcontrol,
     output reg [1:0] ImmSrc, ResultSrc,
     output reg reg_write, mem_write,
-    output reg ALUSrc, PCsrc
+    output reg ALUSrc, PCsrc,
+    output reg [2:0]load,
+    output reg [1:0]store
 );
 
 reg branch;
@@ -47,7 +49,10 @@ always @(funct3,funct7,op,Zflag) begin
             endcase
         end
 
-        LOAD :begin
+       LOAD :begin
+        case(funct3)
+        3'b000:
+        begin
             mem_write<=0;
             reg_write<=1;
             ALUcontrol<=4'b0000;
@@ -55,16 +60,89 @@ always @(funct3,funct7,op,Zflag) begin
             ALUSrc<=1;
             ResultSrc<=2'b01;
             PCsrc <= 0;
+            load <= 3'b000;
         end
+        3'b001:
+        begin
+            mem_write<=0;
+            reg_write<=1;
+            ALUcontrol<=4'b0000;
+            ImmSrc<=2'b00;
+            ALUSrc<=1;
+            ResultSrc<=2'b01;
+            PCsrc <= 0;
+            load <= 3'b001;
+        end
+        3'b010:
+        begin
+            mem_write<=0;
+            reg_write<=1;
+            ALUcontrol<=4'b0000;
+            ImmSrc<=2'b00;
+            ALUSrc<=1;
+            ResultSrc<=2'b01;
+            PCsrc <= 0;
+            load <= 3'b010;
+        end
+        3'b100:
+        begin
+            mem_write<=0;
+            reg_write<=1;
+            ALUcontrol<=4'b0000;
+            ImmSrc<=2'b00;
+            ALUSrc<=1;
+            ResultSrc<=2'b01;
+            PCsrc <= 0;
+            load <= 3'b011;
+        end
+        3'b101:
+        begin
+            mem_write<=0;
+            reg_write<=1;
+            ALUcontrol<=4'b0000;
+            ImmSrc<=2'b00;
+            ALUSrc<=1;
+            ResultSrc<=2'b01;
+            PCsrc <= 0;
+            load <= 3'b100;
+        end
+    end
 
-        STORE :begin
+         STORE :begin
+        case(funct3)
+        3'b000:
+        begin    
             mem_write<=1;
             reg_write<=0;
             ALUcontrol<=4'b0000;
             ImmSrc<=2'b01;
             ALUSrc<=1;
             PCsrc <= 0;
+            store<= 00;
             // ResultSrc<=1;
+        end
+        3'b001:
+        begin    
+            mem_write<=1;
+            reg_write<=0;
+            ALUcontrol<=4'b0000;
+            ImmSrc<=2'b01;
+            ALUSrc<=1;
+            PCsrc <= 0;
+            store<= 01;
+            // ResultSrc<=1;
+        end
+        3'b010:
+        begin    
+            mem_write<=1;
+            reg_write<=0;
+            ALUcontrol<=4'b0000;
+            ImmSrc<=2'b01;
+            ALUSrc<=1;
+            PCsrc <= 0;
+            store<= 10;
+            // ResultSrc<=1;
+        end
         end
 
         BRANCH :begin
